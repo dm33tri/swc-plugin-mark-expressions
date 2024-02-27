@@ -1,0 +1,1 @@
+markedFunction(/* markExpression: example */ 'example');
