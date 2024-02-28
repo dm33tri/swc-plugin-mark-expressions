@@ -2,7 +2,7 @@
 An SWC plugin to mark function calls with block comments
 
 ## Usage
-See [example](https://github.com/dm33tri/swc-plugin-mark-expressions/example) for usage with `webpack` and `swc-loader`.
+See [example](https://github.com/dm33tri/swc-plugin-mark-expressions/tree/master/example) for usage with `webpack` and `swc-loader`.
 
 ```javascript
 fn('arg');
