@@ -2,7 +2,7 @@
     "name": "swc-plugin-mark-expressions",
     "version": "0.1.0",
     "description": "An SWC plugin to mark function calls with comments",
-    "author": "i@dm33tri.ru",
+    "author": "dm33tri@gmail.com",
     "license": "ISC",
     "keywords": ["swc-plugin"],
     "main": "swc_plugin_mark_expressions.wasm",
