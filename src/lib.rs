@@ -58,11 +58,13 @@ impl<'a, C: Comments> VisitMut for MarkExpression<'a, C> {
 
             if let Expr::Member(member_expr) = callee.as_ref() {
                 if let MemberProp::Computed(prop) = &member_expr.prop { // window['markedFunction']
-                    if let Expr::Lit(first_arg_literal) = prop.expr.as_ref() {
-                        if let Lit::Str(first_arg_str_literal) = first_arg_literal {
-                            if self.check_fn_call(first_arg_str_literal.value.as_str()) {
+                    if let Expr::Lit(prop_literal) = prop.expr.as_ref() {
+                        if let Lit::Str(prop) = prop_literal {
+                            let fn_name: &str = &prop.value;
+                            if self.check_fn_call(fn_name) {
                                 if let Expr::Ident(obj) = &member_expr.obj.as_ref() {
-                                    if self.check_obj(obj.sym.as_str()) {
+                                    let obj_name: &str = &obj.sym;
+                                    if self.check_obj(obj_name) {
                                         maybe_first_arg = call_expr.args.first();
                                     }
                                 }
@@ -71,9 +73,11 @@ impl<'a, C: Comments> VisitMut for MarkExpression<'a, C> {
                     }
                 }
                 if let MemberProp::Ident(prop) = &member_expr.prop { // window.markedFunction(...)
-                    if self.check_fn_call(prop.sym.as_str()) {
+                    let func_name: &str = &prop.sym;
+                    if self.check_fn_call(func_name) {
                         if let Expr::Ident(obj) = &member_expr.obj.as_ref() {
-                            if self.check_obj(obj.sym.as_str()) {
+                            let obj_name: &str = &obj.sym;
+                            if self.check_obj(obj_name) {
                                 maybe_first_arg = call_expr.args.first();
                             }
                         }
@@ -82,7 +86,8 @@ impl<'a, C: Comments> VisitMut for MarkExpression<'a, C> {
             }
 
             if let Expr::Ident(func_ident) = callee.as_ref() { // markedFunction(...)
-                if self.check_fn_call(func_ident.sym.as_str()) {
+                let func_name: &str = &func_ident.sym;
+                if self.check_fn_call(func_name) {
                     maybe_first_arg = call_expr.args.first();
                 }
             }
@@ -90,9 +95,10 @@ impl<'a, C: Comments> VisitMut for MarkExpression<'a, C> {
             if let Some(first_arg) = maybe_first_arg {
                 if let Expr::Lit(literal) = first_arg.expr.as_ref() { // markedFunction('str')
                     if let Lit::Str(s) = literal {
+                        let value: &str = &s.value;
                         maybe_lang_value = MarkValue {
                             pos: literal.span_lo(),
-                            value: s.value.as_str(),
+                            value,
                         }.into();
                     }
                 }

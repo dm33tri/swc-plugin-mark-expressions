@@ -1,3 +1,7 @@
-target
 .cargo
 .vscode
+.swc
+dist
+node_modules
+target
+*.wasm

@@ -5,10 +5,10 @@
     "author": "i@dm33tri.ru",
     "license": "ISC",
     "keywords": ["swc-plugin"],
-    "main": "target/wasm32-wasi/release/swc_plugin_mark_expressions.wasm",
-    "scripts": {
-        "prepublishOnly": "cargo build-wasi --release"
-    },
+    "main": "swc_plugin_mark_expressions.wasm",
     "files": [],
+    "scripts": {
+        "prepublishOnly": "cargo build-wasi --release && cp target/wasm32-wasi/release/swc_plugin_mark_expressions.wasm ."
+    },
     "preferUnplugged": true
 }
