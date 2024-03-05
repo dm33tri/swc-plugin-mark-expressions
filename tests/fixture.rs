@@ -7,7 +7,11 @@ use swc_plugin_mark_expressions::{MarkExpression, Config};
 fn fixture(input: PathBuf) {
     let ext = input.extension().unwrap();
     let output = input.with_file_name("output").with_extension(ext);
-    let config: Config = Default::default();
+    let config = Config {
+        title: "markExpression".into(),
+        functions: vec!("markedFunction".into()),
+        objects: vec!("window".into(), "this".into()),
+    };
 
     test_fixture(
         Syntax::Typescript(TsConfig {

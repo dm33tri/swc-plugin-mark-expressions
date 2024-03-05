@@ -7,9 +7,9 @@ use swc_core::plugin::{plugin_transform, proxies::{TransformPluginProgramMetadat
 
 #[derive(Clone, Debug, Deserialize)]
 pub struct Config {
-    title: String,
-    functions: Vec<String>,
-    objects: Vec<String>,
+    pub title: String,
+    pub functions: Vec<String>,
+    pub objects: Vec<String>,
 }
 
 impl Default for Config {

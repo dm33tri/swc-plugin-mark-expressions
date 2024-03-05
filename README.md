@@ -16,6 +16,7 @@ fn(/* mark: arg */ 'arg');
 
 ## @swc/core version compatibility
 
-| @swc/core     | swc-plugin-mark-expressions |
-|---------------|-----------------------------|
-| 1.3.68~1.3.80 | 0.1.0                       |
+| @swc/core       | swc-plugin-mark-expressions |
+|-----------------|-----------------------------|
+| 1.3.68~1.3.80   | 0.1.0                       |
+| 1.3.106~1.3.107 | 0.1.1                       |

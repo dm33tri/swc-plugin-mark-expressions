@@ -1,0 +1,1 @@
+this.markedFunction('from this');
