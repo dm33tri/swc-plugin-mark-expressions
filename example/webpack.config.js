@@ -3,7 +3,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.js',
+  entry: './src/index.jsx',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
@@ -11,30 +11,38 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [new TerserPlugin({
-      terserOptions: {
-        format: {
-          comments: /marked/
-        }
-      }
-    })]
+      extractComments: {
+        condition: /MARK_EXPRESSIONS/,
+        filename: "[file].comments.txt",
+      },
+    })],
   },
   module: {
     rules: [
       {
-        test: /\.m?js$/,
+        test: /\.m?[jt]sx?$/,
         exclude: /(node_modules)/,
         use: {
           loader: 'swc-loader',
           options: {
             jsc: {
+              parser: {
+                syntax: "typescript",
+                tsx: true
+              },
               experimental: {
                 plugins: [
                   [
                     'swc-plugin-mark-expressions',
-                    { 
-                      title: 'marked',
-                      functions: ['markedFunction', 'anotherMarkedFunction'],
-                      objects: ['window', 'global'],
+                    {
+                      title: "MARK_EXPRESSIONS",
+                      functions: ["markFnA", "markFnB", "markFnC"],
+                      methods: {
+                          window: ["markWindowFnA", "markWindowFnB", "markWindowFnC"],
+                          this: ["markThisFnA", "markThisFnB", "markThisFnC"],
+                          obj: ["markObjFnA", "markObjFnB", "markObjFnC"]
+                      },
+                      dynamicImports: ["shouldMark"]
                     }
                   ]
                 ]

@@ -9,7 +9,7 @@
   "author": "dm33tri@gmail.com",
   "license": "ISC",
   "devDependencies": {
-    "@swc/core": "^1.3.68",
+    "@swc/core": "^1.4.11",
     "swc-loader": "^0.2.6",
     "swc-plugin-mark-expressions": "file:..",
     "terser-webpack-plugin": "^5.3.10",
