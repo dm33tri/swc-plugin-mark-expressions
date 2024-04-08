@@ -1,20 +1,23 @@
 // @ts-nocheck
-/*---BEGIN MARK_EXPRESSIONS–-- 
+/*---BEGIN MARK_EXPRESSIONS–--
 [
-    ["markThisFnA", "this", ["this.markThisFnA", null]],
-    ["markThisFnB", "this", ["this.markThisFnB", null]],
-    ["markThisFnC", "this", ["this.markThisFnC", null]],
-    ["import", { webpackChunkName: "ImportA", shouldMark: true }, ["./importA"]],
-    ["import", { webpackChunkName: "ImportB", shouldMark: 1 }, ["./importB"]],
-    ["import", { webpackChunkName: "ImportC", shouldMark: false }, ["./importC"]],
-    ["markFnA", ["ImportC", null]],
-    ["markFnA", ["markFnA"]],
-    ["markWindowFnB", "window", ["window.markWindowFnB", null]],
-    ["markFnA", ["propA={markFnA()}"]],
-    ["markThisFnB", "this", ["propThisA={this.markThisFnB()}"]],
-    ["markWindowFnA", "window", ["propWindowA={window.markWindowFnA()}"]]
+    ["import", {"shouldMark":true,"webpackChunkName":"ImportTrue"}, ["./importTrue"]],
+    ["import", {"shouldMark":"True","webpackChunkName":"ImportTrueStr"}, ["./importTrueStr"]],
+    ["import", {"shouldMark":1,"webpackChunkName":"Import1"}, ["./import1"]],
+    ["import", {"shouldMark":{},"webpackChunkName":"ImportObj"}, ["./importObj"]],
+    ["import", {"shouldMark":[],"webpackChunkName":"ImportArr"}, ["./importArr"]],
+    ["markFnA", ["markFnA", true]],
+    ["markFnB", ["markFnB", false]],
+    ["markFnC", ["markFnC", null]],
+    ["markThisFnA", "this", ["this.markThisFnA", 0, 1, 2]],
+    ["markThisFnB", "this", ["this.markThisFnB", 0, 1, 2]],
+    ["markThisFnC", "this", ["this.markThisFnC", 0, 1, 2]],
+    ["markFnA", ["propA"]],
+    ["markThisFnB", "this", ["propThisA"]],
+    ["markWindowFnA", "window", ["propWindowA"]],
+    ["markFnA", ["childA", 0, true, null, null]]
 ]
- ---END MARK_EXPRESSIONS---*/ const markFnA = (...args)=>{
+---END MARK_EXPRESSIONS---*/ const markFnA = (...args)=>{
     console.log("markFnA", ...args);
 };
 const markFnB = (...args)=>{
@@ -26,6 +29,15 @@ const markFnC = (...args)=>{
 window.markWindowFnA = markFnA;
 window.markWindowFnB = markFnB;
 window.markWindowFnC = markFnC;
+const importTrue = import(/* webpackChunkName: "ImportTrue", shouldMark: true */ "./importTrue");
+const importTrueStr = import(/* webpackChunkName: "ImportTrueStr", shouldMark: "True" */ "./importTrueStr");
+const import1 = ()=>import(/* webpackChunkName: "Import1", shouldMark: 1 */ "./import1");
+const importObj = ()=>import(/* webpackChunkName: "ImportObj", shouldMark: {} */ "./importObj");
+const importArr = ()=>import(/* webpackChunkName: "ImportArr", shouldMark: [] */ "./importArr");
+const importEmptyStr = import(/* webpackChunkName: "ImportEmptyStr", shouldMark: "" */ "./importEmptyStr");
+const import0 = import(/* webpackChunkName: "Import0", shouldMark: 0 */ "./import0");
+const import0f = import(/* webpackChunkName: "Import0.0", shouldMark: 0.0 */ "./import0f");
+const importFalse = import(/* webpackChunkName: "ImportFalse", shouldMark: false */ "./importFalse");
 const object = {
     markFnA,
     markFnB,
@@ -34,32 +46,28 @@ const object = {
     markThisFnB: markFnB,
     markThisFnC: markFnC,
     markedFn: (...args)=>{
-        this.markThisFnA("this.markThisFnA", ...args);
-        this.markThisFnB("this.markThisFnB", ...args);
-        this.markThisFnC("this.markThisFnC", ...args);
-        this.markFnA("should not work", ...args);
-        this.markFnB("should not work", ...args);
-        this.markFnC("should not work", ...args);
+        markFnA("markFnA", true);
+        markFnB("markFnB", false);
+        markFnC("markFnC", {});
+        this.markFnA("should not work");
+        this.markFnB("should not work");
+        this.markFnC("should not work");
+        window.markFnA("should not work", "0", "1", "2", ...args);
+        window.markFnB("should not work", "0", "1", "2", ...args);
+        window.markFnC("should not work", "0", "1", "2", ...args);
+        this.markThisFnA("this.markThisFnA", 0, 1, 2);
+        this.markThisFnB("this.markThisFnB", 0, 1, 2);
+        this.markThisFnC("this.markThisFnC", 0, 1, 2);
     }
 };
-const importA = import(/* webpackChunkName: "ImportA", shouldMark: true */ "./importA");
-const importB = ()=>import(/* webpackChunkName: "ImportB", shouldMark: 1 */ "./importB");
-const importC = markFnA("ImportC", ()=>import(/* webpackChunkName: "ImportC", shouldMark: false */ "./importC"));
 const Component = ()=>{
-    const Wrapper = (...args)=><Wrapper>
-
-      {import(/* webpackChunkName: "ImportD" */ "./importD")}
-
-      {markFnA("markFnA")}
-
-      {window.markWindowFnB("window.markWindowFnB", ...args)}
-
-    </Wrapper>;
-    return <Wrapper propA={markFnA("propA={markFnA()}")} propThisA={function() {
-        return this.markThisFnB("propThisA={this.markThisFnB()}");
-    }} propWindowA={window.markWindowFnA("propWindowA={window.markWindowFnA()}")}>
+    return <div propA={markFnA("propA")} propThisA={function() {
+        return this.markThisFnB("propThisA");
+    }} propWindowA={()=>window.markWindowFnA("propWindowA")}>
 
       <div>
+
+        {markFnA("childA", 0, true, [], Component)}
 
         {markThisFnA("should not work")}
 
@@ -71,5 +79,5 @@ const Component = ()=>{
 
       </div>
 
-    </Wrapper>;
+    </div>;
 };

@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 
-use swc_core::ecma::{parser::{Syntax, TsConfig}, transforms::testing::test_fixture, visit::as_folder};
+use swc_core::ecma::{transforms::testing::test_fixture, visit::as_folder};
+use swc_ecma_parser::{Syntax, TsConfig};
 use swc_plugin_mark_expressions::{MarkExpression, Config};
 
 #[testing::fixture("tests/fixture/**/input.*")]
