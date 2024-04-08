@@ -36,7 +36,7 @@ const object = {
   markedFn: (...args) => {
     markFnA("markFnA", true);
     markFnB("markFnB", false);
-    markFnC("markFnC", {});
+    markFnC("markFnC", { 0: "a", "a": 0, "b": window, "c": null });
 
     this.markFnA("should not work");
     this.markFnB("should not work");
@@ -45,9 +45,9 @@ const object = {
     window.markFnB("should not work", "0", "1", "2", ...args);
     window.markFnC("should not work", "0", "1", "2", ...args);
 
-    this.markThisFnA("this.markThisFnA", 0, 1, 2);
-    this.markThisFnB("this.markThisFnB", 0, 1, 2);
-    this.markThisFnC("this.markThisFnC", 0, 1, 2);
+    this.markThisFnA("this.markThisFnA", 0, 1, 2, "4", "5", "6");
+    this.markThisFnB("this.markThisFnB", 0, 1, 2, "4", "5", "6");
+    this.markThisFnC("this.markThisFnC", 0, 1, 2, "4", "5", "6");
   },
 };
 
@@ -59,7 +59,7 @@ const Component = () => {
       propWindowA={() => window.markWindowFnA("propWindowA")}
     >
       <div>
-        {markFnA("childA", 0, true, [], Component)}
+        {markFnA("childA", 0, true, [], Component, { test: true, component: Component })}
         {markThisFnA("should not work")}
         {markWindowFnA("should not work")}
         {this.markFnA("should not work")}

@@ -21,6 +21,7 @@ swc_ecma_parser = "=0.142.1"
 swc_ecma_utils = "=0.126.1"
 swc_ecma_visit = "=0.97.1"
 swc_plugin_macro = "=0.9.16"
+swc_plugin_proxy = "=0.40.1"
 sourcemap = "=6.4.1"
 
 [dev-dependencies]

@@ -1468,6 +1468,7 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_plugin_macro",
+ "swc_plugin_proxy",
  "testing",
 ]
 

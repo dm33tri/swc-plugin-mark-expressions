@@ -1,6 +1,6 @@
 {
     "name": "swc-plugin-mark-expressions",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "An SWC plugin to mark function calls with comments",
     "author": "dm33tri@gmail.com",
     "license": "ISC",
