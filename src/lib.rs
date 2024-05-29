@@ -5,17 +5,23 @@ use std::{
     collections::{HashMap, HashSet},
     sync::Arc,
 };
-use swc_common::{
-    comments::{Comment, CommentKind, Comments},
-    BytePos, SourceMapperDyn, Spanned,
+use swc_core::{
+    common::{
+        comments::{Comment, CommentKind, Comments},
+        BytePos, SourceMapperDyn, Spanned,
+    },
+    ecma::{
+        ast::{
+            CallExpr, Callee, Expr, ExprOrSpread, Ident, Lit, MemberExpr, MemberProp, Module,
+            Program, Prop, PropName, SpanExt,
+        },
+        visit::{VisitMut, VisitMutWith},
+    },
+    plugin::{
+        plugin_transform,
+        proxies::{PluginCommentsProxy, TransformPluginProgramMetadata},
+    },
 };
-use swc_ecma_ast::{
-    CallExpr, Callee, Expr, Ident, Lit, MemberExpr, MemberProp, Module, Program, SpanExt,
-};
-use swc_ecma_ast::{ExprOrSpread, Prop, PropName};
-use swc_ecma_visit::{VisitMut, VisitMutWith};
-use swc_plugin_macro::plugin_transform;
-use swc_plugin_proxy::{PluginCommentsProxy, TransformPluginProgramMetadata};
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]

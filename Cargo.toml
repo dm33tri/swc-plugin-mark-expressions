@@ -14,16 +14,8 @@ regex = "1.10.3"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 jsonc-parser = { version = "0.23.0", features = ["serde"] }
-swc_core = { version = "=0.90.30", features = ["ecma_plugin_transform"] }
-swc_common = { version = "=0.33.21", features = ["concurrent"] }
-swc_ecma_ast = "=0.112.6"
-swc_ecma_parser = "=0.143.10"
-swc_ecma_utils = "=0.127.15"
-swc_ecma_visit = "=0.98.7"
-swc_plugin_macro = "=0.9.16"
-swc_plugin_proxy = "=0.41.6"
-sourcemap = "=8.0.0"
+swc_core = { version = "=0.92.6", features = ["ecma_plugin_transform", "common_concurrent"] }
 
 [dev-dependencies]
-testing = "=0.35.22"
-swc_ecma_transforms_testing = "=0.140.18"
+swc_core = { version = "=0.92.6", features = ["ecma_plugin_transform", "ecma_parser", "common_concurrent", "testing"] }
+testing = { version = "=0.35.25" }
