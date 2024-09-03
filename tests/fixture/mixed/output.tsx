@@ -53,23 +53,15 @@ const Component = ()=>{
     return <div propA={markFnA("propA")} propThisA={function() {
         return this.markThisFnB("propThisA");
     }} propWindowA={()=>window.markWindowFnA("propWindowA")}>
-
       <div>
-
         {markFnA("childA", 0, true, [], Component, {
         test: true,
         component: Component
     })}
-
         {markThisFnA("should not work")}
-
         {markWindowFnA("should not work")}
-
         {this.markFnA("should not work")}
-
         {window.markFnA("should not work")}
-
       </div>
-
     </div>;
 };

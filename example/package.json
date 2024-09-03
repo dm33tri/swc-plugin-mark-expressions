@@ -10,9 +10,9 @@
   "author": "dm33tri@gmail.com",
   "license": "ISC",
   "devDependencies": {
-    "@rspack/cli": "^0.7.0",
-    "@rspack/core": "^0.7.0",
-    "@swc/core": "^1.5.7",
+    "@rspack/cli": "^1.0.1",
+    "@rspack/core": "^1.0.1",
+    "@swc/core": "^1.7.23",
     "swc-loader": "^0.2.6",
     "swc-plugin-mark-expressions": "file:..",
     "terser-webpack-plugin": "^5.3.10",

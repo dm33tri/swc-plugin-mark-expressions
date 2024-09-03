@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use swc_core::ecma::{
-    parser::{Syntax, TsConfig},
+    parser::{Syntax, TsSyntax},
     transforms::testing::test_fixture,
     visit::as_folder,
 };
@@ -27,7 +27,7 @@ fn fixture(input: PathBuf) {
         .unwrap();
 
     test_fixture(
-        Syntax::Typescript(TsConfig {
+        Syntax::Typescript(TsSyntax {
             tsx: true,
             decorators: false,
             dts: false,

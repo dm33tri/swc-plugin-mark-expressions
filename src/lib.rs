@@ -55,15 +55,11 @@ fn get_args(call_expr: &CallExpr) -> Value {
                 Lit::Num(num) => {
                     let str = num.raw.as_ref().unwrap().as_str();
                     if str.contains(".") || str.contains("e") {
-                        str.parse::<f64>()
-                            .map_or(Value::Null, |num| Value::from(num))
+                        str.parse::<f64>().map_or(Value::Null, Value::from)
                     } else {
                         str.parse::<i32>().map_or_else(
-                            |_| {
-                                str.parse::<u32>()
-                                    .map_or(Value::Null, |num| Value::from(num))
-                            },
-                            |num| Value::from(num),
+                            |_| str.parse::<u32>().map_or(Value::Null, Value::from),
+                            Value::from,
                         )
                     }
                 }
@@ -73,10 +69,7 @@ fn get_args(call_expr: &CallExpr) -> Value {
                 let vals = arr
                     .elems
                     .iter()
-                    .filter_map(|item| {
-                        item.as_ref()
-                            .map(|item| expr_or_spread_to_serde_value(item))
-                    })
+                    .filter_map(|item| item.as_ref().map(expr_or_spread_to_serde_value))
                     .collect();
                 Value::Array(vals)
             }
@@ -115,7 +108,7 @@ fn get_args(call_expr: &CallExpr) -> Value {
     }
 
     fn expr_or_spread_to_serde_value(expr_or_spread: &ExprOrSpread) -> Value {
-        if let Some(_) = &expr_or_spread.spread {
+        if expr_or_spread.spread.is_some() {
             Value::Null
         } else {
             expr_to_serde_value(expr_or_spread.expr.as_ref())
@@ -155,7 +148,7 @@ impl<C: Comments> MarkExpression<C> {
             .collect();
         let pretty = config.pretty.unwrap_or_default();
 
-        return Self {
+        Self {
             title,
             comments,
             source_mapper,
@@ -164,7 +157,7 @@ impl<C: Comments> MarkExpression<C> {
             methods,
             pretty,
             results: Default::default(),
-        };
+        }
     }
 
     fn check_fn_call(&self, callee: &Ident) -> Option<String> {
@@ -259,12 +252,7 @@ impl<C: Comments> MarkExpression<C> {
 
     fn format_pos(&self, expr: &dyn Spanned) -> Value {
         let pos = self.source_mapper.lookup_char_pos(expr.span_lo());
-        let str = format!(
-            "{}:{}:{}",
-            pos.file.name.to_string(),
-            pos.line,
-            pos.col_display
-        );
+        let str = format!("{}:{}:{}", pos.file.name, pos.line, pos.col_display);
         Value::from(str)
     }
 }
@@ -355,7 +343,7 @@ pub fn process_transform(
         .unwrap();
 
     let comments = match metadata.comments {
-        Some(comments) => comments.clone(),
+        Some(comments) => comments,
         None => PluginCommentsProxy,
     };
 
